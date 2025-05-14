@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { ArrowUpRight } from 'lucide-react';
+import { ArrowBigLeft, ArrowBigRight, ArrowUpRight } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 
 const message = ' Hello, I am  a frontend developer';
@@ -11,7 +11,7 @@ export default function RotateTextMotion() {
 
     useEffect(() => {
         const animate = () => {
-            setAngle(prev => prev + 0.008);
+            setAngle(prev => prev + 0.002);
             requestRef.current = requestAnimationFrame(animate);
         };
         requestRef.current = requestAnimationFrame(animate);
@@ -53,7 +53,7 @@ export default function RotateTextMotion() {
             <button
                 className="absolute group underline  left-[55%] top-[55%] bg-[rgba(255,255,255,0.05)] -translate-x-1/2 -translate-y-1/2 transition-all w-40 h-40 flex justify-center items-center  rounded-full shadow-md"
             >
-                Projects <ArrowUpRight className='group-hover:rotate-45 transition-all' />
+                Projects <ArrowBigRight className=' duration-800 group-hover:rotate-90 transition-all mt-1' />
             </button>
         </div>
     );
