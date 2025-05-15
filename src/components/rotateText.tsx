@@ -11,7 +11,7 @@ export default function RotateTextMotion() {
 
     useEffect(() => {
         const animate = () => {
-            setAngle(prev => prev + 0.002);
+            setAngle(prev => prev + 0.004);
             requestRef.current = requestAnimationFrame(animate);
         };
         requestRef.current = requestAnimationFrame(animate);

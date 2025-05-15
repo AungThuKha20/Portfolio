@@ -5,7 +5,7 @@ const Header = () => {
     const options: string[] = ["PORTFOLIO", "ABOUT", "SKILLS", "PROJECTS", "CONTACT"];
 
     return (
-        <nav className="w-full py-2 flex items-center justify-center fixed top-4 z-50">
+        <nav className="w-full py-2 flex items-center justify-center fixed top-4 z-[999]">
             <div className="flex">
                 {options.map((label) => (
                     <button

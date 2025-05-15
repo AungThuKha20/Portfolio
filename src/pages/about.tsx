@@ -7,7 +7,7 @@ export const About = () => {
     const words = text.split(" ");
 
     return (
-        <div className="h-screen px-4 bg-gray-950 flex flex-col items-center justify-center">
+        <div className="h-screen px-4 flex flex-col items-center justify-center">
             <motion.h1
                 className="lg:text-7xl md:text-6xl sm:text-5xl text-4xl text-white mb-20"
                 initial={{ opacity: 0, y: 20 }}
