@@ -25,13 +25,13 @@ export default function FakeCursorWithTail({ children }: { children: ReactNode }
     const y4 = useSpring(y3, spring)
 
     return (
-        <>
+        <div className="">
             {/* <motion.div style={{ ...ball, cursor:"none", x: x4, y: y4, backgroundColor: "#fff", width: 5, height: 5 }} /> */}
             <motion.div style={{ ...ball, cursor: "none", x: x3, y: y3, backgroundColor: "#fff", width: 5, height: 5 }} />
             <motion.div style={{ ...ball, cursor: "none", x: x2, y: y2, backgroundColor: "#fff", width: 15, height: 15 }} />
             <motion.div style={{ ...ball, cursor: "none", x: x1, y: y1, backgroundColor: "#fff", width: 20, height: 20 }} />
             {children}
-        </>
+        </div>
     )
 }
 
@@ -57,5 +57,5 @@ const ball = {
     position: "fixed" as const,
     borderRadius: "50%",
     pointerEvents: "none" as const,
-    zIndex: 9999,
+    zIndex: 99,
 }

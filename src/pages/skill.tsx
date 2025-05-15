@@ -42,68 +42,65 @@ export const Skills = () => {
     restDelta: 0.003,
   });
 
-  const CARD_SPACING = 10;
+  const CARD_SPACING = 20;
 
   return (
-     <>
-       <h1 className="lg:text-7xl md:text-6xl sm:text-5xl text-4xl text-white mt-32 text-center mb-20">Skills</h1>
-       <div
-      ref={containerRef}
-      className="relative h-[1000vh] bg-gray-950 flex justify-center items-start  overflow-visible"
-    >
-      <div className="sticky top-[28%] w-screen h-[500px]">
-        {skills.map((skill, i) => {
-          const position = useTransform(smoothIndex, (v) => i - v);
+    <>
+      <h1 className="lg:text-7xl md:text-6xl sm:text-5xl text-4xl text-white  text-center mb-20">Skills</h1>
+      <div
+        ref={containerRef}
+        className="relative h-[400vh]  flex justify-center items-start  overflow-visible"
+      >
+        <div className="sticky top-[28%] w-screen h-[500px]">
+          {skills.map((skill, i) => {
+            const position = useTransform(smoothIndex, (v) => i - v);
 
-          const y = useTransform(position, (p) =>
-            p < 0 ? -p * CARD_SPACING : p > 0 ? p * CARD_SPACING : 0
-          );
+            const y = useTransform(position, (p) =>
+              p < 0 ? -p * CARD_SPACING : p > 0 ? p * CARD_SPACING : 0
+            );
 
-      
 
-          const zIndex = useTransform(position, (p) =>
-            p === 0 ? cardCount : cardCount - Math.abs(p)
-          );
+            const zIndex = useTransform(position, (p) =>
+              p === 0 ? cardCount : cardCount - Math.abs(p)
+            );
 
-          return (
-            <motion.div
-              key={skill.id}
-              style={{
-                position: "absolute",
-                top: 0,
-                left: "50%",
-                x: "-50%",
-                width: 500,
-                y,
-                scale: 1,
-                opacity: 1,
-                zIndex,
-                transformStyle: "preserve-3d",
-              }}
-              className="bg-gray-800/60 border border-white/20 backdrop-blur-md rounded-xl shadow-2xl p-8 flex flex-col items-center gap-6 cursor-pointer select-none"
-            >
-              <h2 className="text-white text-3xl font-bold">{skill.name}</h2>
-              <img
-                src={skill.img}
-                alt={skill.name}
-                className="w-[120px] h-[120px] object-contain"
-                draggable={false}
-              />
-              <div className="w-full bg-gray-700 h-4 rounded-full overflow-hidden">
-                <motion.div
-                  style={{ backgroundColor: skill.color }}
-                  className="h-full text-white text-center rounded-full"
-                  initial={{ width: 0 }}
-                  animate={{ width: `${skill.level}%` }}
-                  transition={{ duration: 2, ease: "linear" }}
-                  
+            return (
+              <motion.div
+                key={skill.id}
+                style={{
+                  position: "absolute",
+                  top: 0,
+                  left: "50%",
+                  x: "-50%",
+                  width: 500,
+                  y,
+                  opacity: 1,
+                  zIndex,
+                  transformStyle: "preserve-3d",
+                }}
+                className="bg-gray-800/60 border border-white/20 backdrop-blur-md rounded-xl shadow-2xl p-8 flex flex-col items-center gap-6 cursor-pointer select-none"
+              >
+                <h2 className="text-white text-3xl font-bold">{skill.name}</h2>
+                <img
+                  src={skill.img}
+                  alt={skill.name}
+                  className="w-[120px] h-[120px] object-contain"
+                  draggable={false}
                 />
-              </div>
-            </motion.div>
-          );
-        })}
+                <div className="w-full bg-gray-700 h-3 rounded-full overflow-hidden">
+                  <motion.div
+                    style={{ backgroundColor: skill.color }}
+                    className="h-full text-white text-center rounded-full"
+                    initial={{ width: 0 }}
+                    whileInView={{ width: `${skill.level}%` }}
+                    transition={{ duration: 2, ease: "linear" }}
+                  />
+                </div>
+              </motion.div>
+            );
+          })}
+        </div>
       </div>
-    </div>
-     </>
+    </>
   );
 };
