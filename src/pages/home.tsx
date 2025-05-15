@@ -6,12 +6,14 @@ import logo from "../assets/react_logo.png"
 const Home = () => {
     return (
         <div className=" pt-10 px-[1%] !select-none bg-gray-950">
-            <div className=" flex justify-between items-center">
+            <div className=" relative h-fit ">
                 <h1 className=" text-5xl uppercase">
                     <span className="text-4xl">the digital realm where</span>
                     <span className="block mt-2">creativity meets technology</span>
                 </h1>
-                <RotateTextMotion />
+                <div className=" absolute top-0 right-0">
+                      <RotateTextMotion />
+                </div>
             </div>
             <div className=" text-center font-semibold leading-tight text-8xl font-sans center flex justify-center "><h1>AUNG THU KHA</h1></div>
             <figure className="mt-10 relative z-10 mx-auto w-full aspect-video">
