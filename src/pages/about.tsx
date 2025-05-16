@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 
-export const About = () => {
+const About = () => {
     const text = `I began my Frontend Developer career in March 2024 at a Korea-based company, working on interactive web applications. After leaving university in my third year, I earned an NCC Level 4 Diploma in Computing. I'm passionate about JavaScript, TypeScript, React, and Framer Motion, and excited to continue growing in the field.`;
 
     const words = text.split(" ");
@@ -56,9 +56,9 @@ const ScrollAnimatedWords = ({ words }: { words: string[] }) => {
                 <motion.span
                     key={index}
                     className="inline-block whitespace-nowrap"
-                    initial={{ opacity: 0, y: 10 }} // Start slightly off-screen
-                    animate={index < visibleCount ? { opacity: 1, y: 0 } : { opacity: 0, y: 10 }} // Animate to original position
-                    transition={{ duration: 0.8, ease: "easeOut" }} // Adjusted duration for smoother effect
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={index < visibleCount ? { opacity: 1, y: 0 } : { opacity: 0, y: 10 }}
+                    transition={{ duration: 0.8, ease: "easeOut" }}
                 >
                     {word}
                 </motion.span>
@@ -66,3 +66,4 @@ const ScrollAnimatedWords = ({ words }: { words: string[] }) => {
         </div>
     );
 };
+export default About;

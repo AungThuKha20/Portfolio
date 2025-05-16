@@ -1,8 +1,9 @@
 // @ts-nocheck
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import { Github, Linkedin, FileUser } from "lucide-react";
 import RotateTextMotion from "../components/rotateText";
+import TypingHeading from "../components/typingHeading";
 
 const typingText = `Hey there! 👋
 You clicked the button — nice!
@@ -14,12 +15,22 @@ const Home = () => {
   const [displayedText, setDisplayedText] = useState("");
   const [typingIndex, setTypingIndex] = useState(0);
 
+  const modelRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    console.log(modelRef.current)
+    if (modelRef.current) modelRef.current.onclick = (evt) => {
+      evt.preventDefault()
+      console.log("CLICKED")
+    }
+  }, [modelRef.current])
+
   useEffect(() => {
     if (showText && typingIndex < typingText.length) {
       const timeout = setTimeout(() => {
         setDisplayedText((prev) => prev + typingText[typingIndex]);
         setTypingIndex(typingIndex + 1);
-      }, 50);
+      }, 10);
       return () => clearTimeout(timeout);
     }
     if (!showText) {
@@ -31,17 +42,9 @@ const Home = () => {
   return (
     <div className="pt-10 px-[1%] !select-none">
       <div className="mt-20 relative">
-        <motion.h1
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          transition={{ duration: 1, ease: "easeOut" }}
-          className="text-4xl uppercase"
-        >
-          <span className="text-[30px]">the digital realm where</span>
-          <span className="block mt-2">creativity meets technology</span>
-        </motion.h1>
-       <div className="absolute top-[-100%] right-0">
-                    <RotateTextMotion />
+        <TypingHeading />
+        <div className="absolute top-[-100%] right-0">
+          <RotateTextMotion />
         </div>
       </div>
 
@@ -57,6 +60,7 @@ const Home = () => {
       >
         <model-viewer
           src="/me.glb"
+          ref={modelRef}
           alt="3D Avatar"
           auto-rotate
           camera-controls
@@ -65,20 +69,24 @@ const Home = () => {
           interaction-policy="none"
           style={{ width: "100%", height: "100%", zIndex: 100 }}
         ></model-viewer>
-
         <div className="absolute top-5 -right-60 w-[400px] z-[101]">
-          <button
-            className="font-extrabold text-sm h-8 px-4 border-2 border-gray-50 flex justify-center items-center rounded-md hover:bg-gray-700 transition-colors"
+          <motion.button
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            transition={{ type: "spring", stiffness: 300, damping: 15 }}
             onClick={() => setShowText((prev) => !prev)}
+            className="relative px-6 h-10 text-sm font-bold text-white border-2 border-cyan-700 rounded-lg overflow-hidden shadow-md bg-black/80 backdrop-blur-md group"
           >
-            Click Me
-          </button>
+            <span className="relative z-10">Click Me</span>
+            <span className="absolute inset-0 w-full h-full bg-gradient-to-br from-cyan-500/20 to-blue-700/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></span>
+            <span className="absolute -inset-[1px] rounded-lg border border-cyan-500 opacity-0 group-hover:opacity-100 animate-pulse pointer-events-none"></span>
+          </motion.button>
 
           {showText && (
             <motion.div
               initial={{ opacity: 0, y: -10 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5 }}
+              transition={{ duration: 0.1 }}
               className="mt-4 text-gray-50 whitespace-pre-wrap font-mono text-sm bg-black/50 p-4 rounded-md"
             >
               {displayedText}

@@ -7,8 +7,8 @@ const AnimatedBackground = () => {
 
     useEffect(() => {
         const handleMouseMove = (e: MouseEvent) => {
-            mouseX.set(e.clientX);
-            mouseY.set(e.clientY);
+            mouseX.set(e.clientX / 6);
+            mouseY.set(e.clientY / 6);
         };
 
         window.addEventListener("mousemove", handleMouseMove);
@@ -38,7 +38,7 @@ const AnimatedBackground = () => {
                             fill="none"
                             stroke="#3b82f6"
                             strokeWidth="0.9"
-                            opacity="0.2"
+                            opacity="0.4"
                         />
                     </pattern>
                 </defs>

@@ -26,7 +26,7 @@ const skills = [
   { id: 8, name: "Multiple Libraries", level: 60, img: other, color: "#c54881" },
 ];
 
-export const Skills = () => {
+const Skills = () => {
   const containerRef = useRef(null);
 
   const { scrollYProgress } = useScroll({
@@ -104,3 +104,4 @@ export const Skills = () => {
     </>
   );
 };
+export default Skills;

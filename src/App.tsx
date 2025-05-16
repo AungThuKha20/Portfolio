@@ -1,10 +1,12 @@
 import AnimatedBackground from "./components/animatedBackground"
 import FakeCursorWithTail from "./components/FollowCursorDrag"
 import Header from "./components/header"
-import { About } from "./pages/about"
+import About from "./pages/about"
 import Home from "./pages/home"
-import { Projects } from "./pages/projects"
-import { Skills } from "./pages/skill"
+import Projects from "./pages/projects"
+import Skills from "./pages/skill"
+import Contact from "./pages/contact"
+
 
 const App = () => {
   return (
@@ -17,6 +19,8 @@ const App = () => {
           <About />
           <Skills />
           <Projects />
+          <Contact />
+
         </div>
       </FakeCursorWithTail>
     </>
