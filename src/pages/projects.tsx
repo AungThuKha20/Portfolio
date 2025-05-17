@@ -68,12 +68,23 @@ const Projects = () => {
                                     Cupiditate ducimus architecto temporibus distinctio eligendi
                                     voluptas ex.
                                 </p>
-                                <div className=" flex gap-3 items-center">
-                                    <LinkBtn buttonTxt="Demo" />
-                                    <a href="#" className="h-fit mt-6">
-                                        <Github size={30} className="text-cyan-700" />
-                                    </a>
+                                <div className="flex gap-3 items-center mt-6">
+                                    <LinkBtn buttonTxt="Demo" paddingX="4" />
+                                    <motion.a
+                                        href="#"
+                                        whileHover={{ scale: 1.02 }}
+                                        whileTap={{ scale: 0.95 }}
+                                        transition={{
+                                            type: "spring",
+                                            stiffness: 300,
+                                            damping: 15,
+                                        }}
+                                        className="flex items-center justify-center px-4 py-2 border-2 border-cyan-700 rounded-lg shadow-md bg-black/40 backdrop-blur-md group text-white"
+                                    >
+                                        <Github size={22} className="font-bold group-hover:scale-101 transition" />
+                                    </motion.a>
                                 </div>
+
                             </div>
                             <img
                                 src={project.image}
@@ -89,9 +100,7 @@ const Projects = () => {
 };
 
 export default Projects;
-export function LinkBtn({ buttonTxt, paddingX }: { buttonTxt: string, paddingX?: string }) {
-
-
+export function LinkBtn({ buttonTxt, paddingX = "4" }: { buttonTxt: string; paddingX?: string }) {
     return (
         <motion.a
             href="#"
@@ -102,16 +111,13 @@ export function LinkBtn({ buttonTxt, paddingX }: { buttonTxt: string, paddingX?:
                 stiffness: 300,
                 damping: 15,
             }}
-            className={`relative mt-6 px-${paddingX} flex justify-center py-1.5 font-bold text-white border-2 border-cyan-700 rounded-lg shadow-md bg-black/40 backdrop-blur-md group z-[101]`}
+            className={`relative px-${paddingX} py-1.5 font-bold text-white border-2 border-cyan-700 rounded-lg shadow-md bg-black/40 backdrop-blur-md group`}
         >
             <span className="relative z-10">{buttonTxt}</span>
             <span className="absolute inset-0 w-full h-full bg-gradient-to-br from-cyan-500/20 to-blue-700/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-lg"></span>
             <span className="absolute -inset-[1px] rounded-lg border border-cyan-500 opacity-0 group-hover:opacity-100 animate-pulse pointer-events-none"></span>
         </motion.a>
-    )
-
-
-
+    );
 }
 
 
