@@ -11,7 +11,7 @@ export default function RotateTextMotion() {
 
     useEffect(() => {
         const animate = () => {
-            setAngle(prev => prev + 0.004);
+            setAngle(prev => prev + 0.008);
             requestRef.current = requestAnimationFrame(animate);
         };
         requestRef.current = requestAnimationFrame(animate);
@@ -38,7 +38,7 @@ export default function RotateTextMotion() {
                 return (
                     <motion.div
                         key={i}
-                        className="letter"
+                        className="letter "
                         style={{
                             position: 'absolute',
                             left: `${x}px`,

@@ -48,7 +48,7 @@ const Home = () => {
         </div>
       </div>
 
-      <div className="text-center font-semibold leading-tight text-7xl font-sans flex justify-center center">
+      <div className="text-center leading-tight text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold font-sans flex justify-center center">
         <h1>AUNG THU KHA</h1>
       </div>
 

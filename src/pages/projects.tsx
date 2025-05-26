@@ -33,9 +33,14 @@ const projects: Project[] = [
 const Projects = () => {
     return (
         <section className="py-14 px-4 text-white relative h-full flex flex-col justify-center items-center">
-            <h2 className="lg:text-7xl md:text-6xl sm:text-5xl text-4xl text-white text-center mb-20">
+            <motion.h1
+                initial={{ opacity: 0, y: -20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 1, ease: "easeOut" }}
+                className="text-white text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold z-10 mb-12 text-center"
+            >
                 Latest Projects
-            </h2>
+            </motion.h1>
 
             {projects.map((project, index) => {
                 const ref = useRef(null);
