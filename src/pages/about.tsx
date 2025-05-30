@@ -57,12 +57,12 @@ const ScrollAnimatedWords = ({ words }: { words: string[] }) => {
     return (
         <motion.div
             ref={ref}
-            className="z-10 max-w-5xl text-lg md:text-xl lg:text-2xl md:text-center text-start backdrop-blur-md md:bg-white/5 md:p-8 rounded-2xl shadow-2xl border border-white/10"
+            className="z-10 max-w-5xl text-lg md:text-xl lg:text-2xl text-center backdrop-blur-md md:bg-white/5 md:p-8 rounded-2xl shadow-2xl border border-white/10"
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 2 }}
         >
-            <div className="flex flex-wrap md:justify-center gap-2">
+            <div className="flex flex-wrap justify-center gap-2">
                 {words.map((word, index) => (
                     <span
                         key={index}
