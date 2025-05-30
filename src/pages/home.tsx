@@ -84,7 +84,7 @@ const Home = () => {
           disable-zoom
           style={{ width: "100%", height: "100%", zIndex: 100 }}
         ></model-viewer>
-        <div className="absolute top-5 md:left-90 -left-10 w-[400px] z-[101]">
+        <div className="absolute top-5 md:left-90 -left-14 w-[400px] z-[101]">
           <motion.button
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}

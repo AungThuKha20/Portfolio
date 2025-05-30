@@ -59,12 +59,13 @@ export default function RotateTextMotion() {
                     {char}
                 </motion.div>
             ))}
-            <button
+            <a
+            href='#projects'
                 className="absolute group underline left-[55%] top-[55%] bg-[rgba(255,255,255,0.05)] -translate-x-1/2 -translate-y-1/2 transition-all w-40 h-40 flex justify-center items-center rounded-full shadow-md"
             >
                 Projects
                 <ArrowBigRight className="duration-800 group-hover:rotate-90 transition-all mt-1" />
-            </button>
+            </a>
         </div>
     );
 }
