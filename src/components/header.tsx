@@ -23,7 +23,7 @@ const Header = () => {
         <>
             {/* Desktop / tablet nav */}
             <nav className="hidden md:flex w-full py-2 items-center justify-center fixed top-4 z-[999]">
-                <div className="flex gap-2 bg-black/30 py-1 rounded-lg shadow-md backdrop-blur-md border border-white/20">
+                <div className="flex gap-2 bg-black/30 py-1 px-1 rounded-lg shadow-md backdrop-blur-md border border-white/20">
                     {options.map(({ label, id }) => (
                         <motion.a
                             href={`#${id}`}
