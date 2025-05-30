@@ -16,21 +16,27 @@ const Home = () => {
   const [typingIndex, setTypingIndex] = useState(0);
 
   const modelRef = useRef<HTMLDivElement | null>(null);
+  const [isMdUp, setIsMdUp] = useState(false);
 
   useEffect(() => {
-    console.log(modelRef.current)
-    if (modelRef.current) modelRef.current.onclick = (evt) => {
-      evt.preventDefault()
-      console.log("CLICKED")
-    }
-  }, [modelRef.current])
+    const checkScreenSize = () => {
+      setIsMdUp(window.innerWidth >= 768);
+    };
+
+    checkScreenSize();
+    window.addEventListener("resize", checkScreenSize);
+
+    return () => window.removeEventListener("resize", checkScreenSize);
+  }, []);
+
+
 
   useEffect(() => {
     if (showText && typingIndex < typingText.length) {
       const timeout = setTimeout(() => {
         setDisplayedText((prev) => prev + typingText[typingIndex]);
         setTypingIndex(typingIndex + 1);
-      }, 10);
+      }, 0.1);
       return () => clearTimeout(timeout);
     }
     if (!showText) {
@@ -40,20 +46,21 @@ const Home = () => {
   }, [showText, typingIndex]);
 
   return (
-    <div className="pt-10 px-[1%] !select-none">
+    <div id="home" className="md:pt-10 px-[2%] !select-none">
       <div className="mt-20 relative">
         <TypingHeading />
-        <div className="absolute top-[-100%] right-0">
+        <div className="absolute top-[-100%] right-0 lg:block hidden">
           <RotateTextMotion />
         </div>
       </div>
 
-      <div className="text-center leading-tight text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold font-sans flex justify-center center">
+      <div className="text-center relative  text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold font-sans flex justify-center center">
         <h1>AUNG THU KHA</h1>
+        <p className=" text-xs absolute -top-2 lg:hidden block">Hi, I am Frontend Developer</p>
       </div>
 
       <motion.div
-        className="w-full max-w-[500px] mx-auto h-[600px] relative"
+        className="w-full md:max-w-[500px] max-w-[200px] mx-auto h-[500px] md:h-[600px] relative"
         initial={{ opacity: 0, y: -100 }}
         whileInView={{ opacity: 1, y: 0 }}
         transition={{ duration: 3, ease: "easeOut" }}
@@ -63,19 +70,27 @@ const Home = () => {
           ref={modelRef}
           alt="3D Avatar"
           auto-rotate
-          camera-controls
+          {...(isMdUp
+            ? {
+              cameraControls: true,
+              interactionPrompt: "auto",
+              interactionPolicy: "allow-when-focused",
+            }
+            : {
+              cameraControls: false,
+              interactionPrompt: "none",
+              interactionPolicy: "none",
+            })}
           disable-zoom
-          interaction-prompt="none"
-          interaction-policy="none"
           style={{ width: "100%", height: "100%", zIndex: 100 }}
         ></model-viewer>
-        <div className="absolute top-5 -right-60 w-[400px] z-[101]">
+        <div className="absolute top-5 md:left-90 left-0 w-[400px] z-[101]">
           <motion.button
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             transition={{ type: "spring", stiffness: 300, damping: 15 }}
             onClick={() => setShowText((prev) => !prev)}
-            className="relative px-6 h-10 text-sm font-bold text-white border-2 border-cyan-700 rounded-lg overflow-hidden shadow-md bg-black/80 backdrop-blur-md group"
+            className="relative px-6 md:h-10 h-6 text-sm font-bold text-white border-2 border-cyan-700 rounded-lg overflow-hidden shadow-md bg-black/80 backdrop-blur-md group"
           >
             <span className="relative z-10">Click Me</span>
             <span className="absolute inset-0 w-full h-full bg-gradient-to-br from-cyan-500/20 to-blue-700/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></span>
@@ -86,7 +101,7 @@ const Home = () => {
             <motion.div
               initial={{ opacity: 0, y: -10 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.1 }}
+              transition={{ duration: 0.01 }}
               className="mt-4 text-gray-50 whitespace-pre-wrap font-mono text-sm bg-black/50 p-4 rounded-md"
             >
               {displayedText}

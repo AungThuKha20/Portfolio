@@ -32,14 +32,14 @@ const projects: Project[] = [
 
 const Projects = () => {
     return (
-        <section className="py-14 px-4 text-white relative h-full flex flex-col justify-center items-center">
+        <section id="projects" className=" lg:py-30 px-4 text-white bg-transparent relative h-full flex flex-col justify-center gap-10 items-center">
             <motion.h1
-                initial={{ opacity: 0, y: -20 }}
-                whileInView={{ opacity: 1, y: 0 }}
+                initial={{ opacity: 0, y: -50 }}
+                animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 1, ease: "easeOut" }}
-                className="text-white text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold z-10 mb-12 text-center"
+                className="text-gray-100 lg:text-5xl md:text-4xl text-3xl  sm:text-6xl font-extrabold mb-10 text-center drop-shadow-lg leading-tight"
             >
-                Latest Projects
+                Latest <span className="text-cyan-800">Projects</span>
             </motion.h1>
 
             {projects.map((project, index) => {
@@ -54,26 +54,26 @@ const Projects = () => {
 
                 return (
                     <div
-                        className="h-[70vh] flex justify-center items-center"
+                        className="lg:h-[60vh]  h-full w-full flex gap-10 justify-center items-center"
                         key={index}
                         ref={ref}
                     >
                         <motion.div
                             transition={{ duration: 5 }}
                             style={{ scale, opacity }}
-                            className={`flex flex-col md:flex-row ${index % 2 === 0 ? "md:flex-row-reverse" : ""
-                                } gap-10 items-center w-full max-w-6xl max-h-[700px]`}
+                            className={`flex flex-col-reverse md:flex-row ${index % 2 === 0 ? "md:flex-row-reverse" : ""
+                                } lg:gap-10 gap-5 items-center w-full max-w-6xl md:max-h-[700px]`}
                         >
                             <div className="text-lg max-w-xl px-4">
-                                <h3 className="text-3xl font-semibold text-gray-100">
+                                <h3 className="lg:text-3xl md:text-2xl text-xl font-semibold text-gray-100">
                                     {project.title}
                                 </h3>
-                                <p className="mt-5 text-gray-300">
+                                <p className="md:mt-5 mt-2 text-gray-300 md:text-md text-sm">
                                     Lorem ipsum dolor sit amet consectetur adipisicing elit.
                                     Cupiditate ducimus architecto temporibus distinctio eligendi
                                     voluptas ex.
                                 </p>
-                                <div className="flex gap-3 items-center mt-6">
+                                <div className="flex gap-3 items-center lg:mt-6 md:mt-5 mt-4">
                                     <LinkBtn buttonTxt="Demo" paddingX="4" />
                                     <motion.a
                                         href="#"
@@ -84,7 +84,7 @@ const Projects = () => {
                                             stiffness: 300,
                                             damping: 15,
                                         }}
-                                        className="flex items-center justify-center px-4 py-2 border-2 border-cyan-700 rounded-lg shadow-md bg-black/40 backdrop-blur-md group text-white"
+                                        className="flex items-center justify-center px-4 md:py-2 py-[0.15rem] border-2 border-cyan-700 rounded-lg shadow-md bg-black/40 backdrop-blur-md group text-white"
                                     >
                                         <Github size={22} className="font-bold group-hover:scale-101 transition" />
                                     </motion.a>
@@ -94,7 +94,7 @@ const Projects = () => {
                             <img
                                 src={project.image}
                                 alt={project.title}
-                                className="aspect-video object-cover w-full max-w-xl h-[300px] rounded-lg shadow-md"
+                                className="aspect-video object-cover w-full lg:max-w-xl max-w-[500px] rounded-lg shadow-md"
                             />
                         </motion.div>
                     </div>
@@ -116,7 +116,7 @@ export function LinkBtn({ buttonTxt, paddingX = "4" }: { buttonTxt: string; padd
                 stiffness: 300,
                 damping: 15,
             }}
-            className={`relative px-${paddingX} py-1.5 font-bold text-white border-2 border-cyan-700 rounded-lg shadow-md bg-black/40 backdrop-blur-md group`}
+            className={`relative px-${paddingX} md:py-2.5 py-1 font-bold text-white md:text-md text-sm border-2 border-cyan-700 rounded-lg shadow-md bg-black/40 backdrop-blur-md group`}
         >
             <span className="relative z-10">{buttonTxt}</span>
             <span className="absolute inset-0 w-full h-full bg-gradient-to-br from-cyan-500/20 to-blue-700/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-lg"></span>

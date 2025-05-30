@@ -33,10 +33,10 @@ const TypingHeading = () => {
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             transition={{ duration: 0.5, ease: "easeOut" }}
-            className="text-4xl uppercase h-[100px]"
+            className="lg:text-4xl md:text-3xl text-xl md:text-start text-center uppercase md:h-[100px] h-[80px]"
         >
-            <span className="text-[30px] block">{text1}</span>
-            <span className="block mt-2">{text2}</span>
+            <span className="lg:text-[30px] md:text-2xl text-xl block">{text1}</span>
+            <span className="block">{text2}</span>
         </motion.h1>
     );
 };

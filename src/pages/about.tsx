@@ -6,30 +6,16 @@ const About = () => {
     const words = text.split(" ");
 
     return (
-        <section className="relative h-screen w-full flex flex-col items-center justify-center px-6">
-            {/* Floating Blobs Background */}
-            <motion.div
-                className="absolute w-80 h-80 bg-pink-500/30 rounded-full blur-3xl top-0 left-0 z-0 animate-float"
-                animate={{ y: [0, 30, 0], x: [0, 15, 0] }}
-                transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
-            />
-            <motion.div
-                className="absolute w-96 h-96 bg-cyan-400/20 rounded-full blur-3xl bottom-0 right-0 z-0 animate-float"
-                animate={{ y: [0, -20, 0], x: [0, -10, 0] }}
-                transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
-            />
-
-            {/* Title */}
+        <section id="about" className="relative h-full md:py-24 py-16 w-full flex flex-col items-center justify-center px-6">
             <motion.h1
-                initial={{ opacity: 0, y: -20 }}
-                whileInView={{ opacity: 1, y: 0 }}
+                initial={{ opacity: 0, y: -50 }}
+                animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 1, ease: "easeOut" }}
-                className="text-white text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold z-10 mb-12 text-center"
+                className="text-gray-100 lg:text-5xl md:text-4xl text-3xl sm:text-6xl font-extrabold md:mb-20 mb-10 text-center drop-shadow-lg leading-tight"
             >
-                About Me
+                About <span className="text-cyan-800">Me</span>
             </motion.h1>
 
-            {/* Text with Scroll Animation */}
             <ScrollAnimatedWords words={words} />
         </section>
     );
@@ -37,7 +23,7 @@ const About = () => {
 
 const ScrollAnimatedWords = ({ words }: { words: string[] }) => {
     const ref = useRef<HTMLDivElement>(null);
-    const [visibleCount, setVisibleCount] = useState<number>(0);
+    const [scrollProgress, setScrollProgress] = useState<number>(0);
 
     useEffect(() => {
         const handleScroll = () => {
@@ -45,36 +31,48 @@ const ScrollAnimatedWords = ({ words }: { words: string[] }) => {
             const rect = ref.current.getBoundingClientRect();
             const windowHeight = window.innerHeight;
 
-            const ratio = (windowHeight - rect.top) / windowHeight;
-            const clampedRatio = Math.min(1, Math.max(0, ratio));
-            const wordCount = Math.floor(clampedRatio * words.length);
-            setVisibleCount(wordCount);
+            const visibleRatio = (windowHeight - rect.top) / windowHeight;
+
+            // Normalize so 70% visibility == 1
+            const normalized = visibleRatio / 0.7;
+            const clamped = Math.min(1, Math.max(0, normalized));
+
+            setScrollProgress(clamped);
         };
 
         window.addEventListener("scroll", handleScroll);
         handleScroll();
         return () => window.removeEventListener("scroll", handleScroll);
-    }, [words.length]);
+    }, []);
+
+    const getInterpolatedColor = (index: number): string => {
+        if (scrollProgress >= 1) return "rgb(255, 255, 255,0.9)";
+
+        const ratio = scrollProgress - index / words.length;
+        const clamped = Math.min(1, Math.max(0, ratio * 2));
+        const value = Math.floor(clamped * 255);
+        return `rgb(${value}, ${value}, ${value})`;
+    };
 
     return (
         <motion.div
             ref={ref}
-            className="z-10 max-w-5xl text-lg md:text-xl lg:text-2xl text-white text-center backdrop-blur-md bg-white/5 p-8 rounded-2xl shadow-2xl border border-white/10"
+            className="z-10 max-w-5xl text-lg md:text-xl lg:text-2xl md:text-center text-start backdrop-blur-md md:bg-white/5 md:p-8 rounded-2xl shadow-2xl border border-white/10"
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1 }}
+            transition={{ duration: 2 }}
         >
-            <div className="flex flex-wrap justify-center gap-2">
+            <div className="flex flex-wrap md:justify-center gap-2">
                 {words.map((word, index) => (
-                    <motion.span
+                    <span
                         key={index}
-                        className="inline-block whitespace-nowrap"
-                        initial={{ opacity: 0, y: 0 }}
-                        animate={index < visibleCount ? { opacity: 1, y: 0 } : { opacity: 0, y: 0 }}
-                        transition={{ duration: 0.5, ease: "easeOut" }}
+                        className="md:inline-block md:whitespace-nowrap transition-colors duration-300"
+                        style={{
+                            color: getInterpolatedColor(index),
+                        }}
                     >
                         {word}
-                    </motion.span>
+                    </span>
                 ))}
             </div>
         </motion.div>
