@@ -84,7 +84,7 @@ const Home = () => {
           disable-zoom
           style={{ width: "100%", height: "100%", zIndex: 100 }}
         ></model-viewer>
-        <div className="absolute top-5 md:left-90 left-0 w-[400px] z-[101]">
+        <div className="absolute top-5 md:left-90 -left-10 w-[400px] z-[101]">
           <motion.button
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
@@ -120,7 +120,7 @@ const Home = () => {
                 className="w-fit hover:scale-110 transition-transform"
                 target="_blank"
                 rel="noreferrer"
-                href="https://github.com/aungthukha"
+                href="https://github.com/AungThuKha20"
               >
                 <Github />
               </a>
@@ -130,7 +130,7 @@ const Home = () => {
                 className="w-fit hover:scale-110 transition-transform"
                 target="_blank"
                 rel="noreferrer"
-                href="https://www.linkedin.com/in/aungthukha"
+                href="https://www.linkedin.com/in/aung-thukha-20a57a256/"
               >
                 <Linkedin />
               </a>
