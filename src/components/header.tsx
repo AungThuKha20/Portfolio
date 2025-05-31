@@ -1,12 +1,11 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
 const Header = () => {
     const [active, setActive] = useState<string>("PORTFOLIO");
     const [sidebarOpen, setSidebarOpen] = useState(false);
 
-    // Map labels to IDs (home = PORTFOLIO)
-    const options: { label: string; id: string }[] = [
+    const options = [
         { label: "PORTFOLIO", id: "home" },
         { label: "ABOUT", id: "about" },
         { label: "SKILLS", id: "skills" },
@@ -19,34 +18,62 @@ const Header = () => {
         visible: { x: 0 },
     };
 
+    useEffect(() => {
+        const sectionIds = options.map(({ id }) => id);
+        const observers: IntersectionObserver[] = [];
+
+        const handleIntersect = (entries: IntersectionObserverEntry[]) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    const matched = options.find(opt => opt.id === entry.target.id);
+                    if (matched) setActive(matched.label);
+                }
+            });
+        };
+
+        const observerOptions = {
+            root: null,
+            threshold: 0.4,
+            rootMargin: "0px 0px -35% 0px",
+        };
+
+        sectionIds.forEach((id) => {
+            const section = document.getElementById(id);
+            if (section) {
+                const observer = new IntersectionObserver(handleIntersect, observerOptions);
+                observer.observe(section);
+                observers.push(observer);
+            }
+        });
+
+        return () => observers.forEach(obs => obs.disconnect());
+    }, []);
+
     return (
         <>
-            {/* Desktop / tablet nav */}
-            <nav className="hidden md:flex w-full py-2 items-center justify-center fixed top-4 z-[999]">
+            {/* Desktop Navigation */}
+            <nav className="hidden md:flex fixed top-4 z-[999] w-full justify-center items-center py-2">
                 <div className="flex gap-2 bg-black/30 py-1 px-1 rounded-lg shadow-md backdrop-blur-md border border-white/20">
                     {options.map(({ label, id }) => (
                         <motion.a
-                            href={`#${id}`}
                             key={label}
+                            href={`#${id}`}
                             onClick={() => setActive(label)}
-                            className={`relative px-5 h-9 text-sm font-semibold flex justify-center cursor-pointer items-center uppercase tracking-wider
-                            transition-all duration-300 rounded-md overflow-hidden group
-                            ${active === label
-                                    ? "text-white"
-                                    : "text-gray-400 hover:text-white"
-                                }`}
+                            className={`relative px-5 h-9 text-sm font-semibold flex items-center justify-center uppercase tracking-wider rounded-md overflow-hidden group transition-all duration-300 ${
+                                active === label ? "text-white" : "text-gray-400 hover:text-white"
+                            }`}
                             whileHover={{ scale: 1.03 }}
                             whileTap={{ scale: 0.95 }}
                         >
                             {active === label && (
-                                <motion.div
-                                    layoutId="active-pill"
-                                    className="absolute inset-0 rounded-md bg-gradient-to-r from-cyan-500 to-blue-700 opacity-30"
-                                    transition={{ type: "spring", stiffness: 300, damping: 20 }}
-                                />
-                            )}
-                            {active === label && (
-                                <div className="absolute inset-0 border border-cyan-400 rounded-md pointer-events-none" />
+                                <>
+                                    <motion.div
+                                        layoutId="active-pill"
+                                        className="absolute inset-0 bg-gradient-to-r from-cyan-500 to-blue-700 opacity-30 rounded-md"
+                                        transition={{ type: "spring", stiffness: 300, damping: 20 }}
+                                    />
+                                    <div className="absolute inset-0 border border-cyan-400 rounded-md pointer-events-none" />
+                                </>
                             )}
                             <span className="relative z-10">{label}</span>
                         </motion.a>
@@ -54,23 +81,14 @@ const Header = () => {
                 </div>
             </nav>
 
-            {/* Mobile hamburger button */}
+            {/* Mobile Toggle Button */}
             <div className="md:hidden fixed top-4 left-4 z-[1000]">
                 <button
                     onClick={() => setSidebarOpen(true)}
-                    aria-label="Open Menu"
                     className="text-white bg-black/50 p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-cyan-500"
+                    aria-label="Open Menu"
                 >
-                    {/* Hamburger icon */}
-                    <svg
-                        className="w-6 h-6"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="2"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        viewBox="0 0 24 24"
-                    >
+                    <svg className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
                         <line x1="3" y1="6" x2="21" y2="6" />
                         <line x1="3" y1="12" x2="21" y2="12" />
                         <line x1="3" y1="18" x2="21" y2="18" />
@@ -78,22 +96,22 @@ const Header = () => {
                 </button>
             </div>
 
-            {/* Mobile sidebar */}
+            {/* Mobile Sidebar */}
             <AnimatePresence>
                 {sidebarOpen && (
                     <>
                         {/* Overlay */}
                         <motion.div
-                            className="fixed inset-0 bg-black bg-opacity-50 z-[999]"
+                            className="fixed inset-0 bg-black/50 z-[999]"
                             initial={{ opacity: 0 }}
                             animate={{ opacity: 1 }}
                             exit={{ opacity: 0 }}
                             onClick={() => setSidebarOpen(false)}
                         />
 
-                        {/* Sidebar panel */}
+                        {/* Sidebar Panel */}
                         <motion.aside
-                            className="fixed top-0 left-0 bottom-0 w-64 bg-black/90 backdrop-blur-md shadow-lg z-[1000] p-6 flex flex-col"
+                            className="fixed top-0 left-0 bottom-0 w-64 bg-black/90 backdrop-blur-md p-6 z-[1000] shadow-lg flex flex-col"
                             initial="hidden"
                             animate="visible"
                             exit="hidden"
@@ -105,22 +123,13 @@ const Header = () => {
                                 aria-label="Close Menu"
                                 className="self-end mb-6 text-white p-2 focus:outline-none focus:ring-2 focus:ring-cyan-500"
                             >
-                                {/* Close icon */}
-                                <svg
-                                    className="w-6 h-6"
-                                    fill="none"
-                                    stroke="currentColor"
-                                    strokeWidth="2"
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    viewBox="0 0 24 24"
-                                >
+                                <svg className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
                                     <line x1="18" y1="6" x2="6" y2="18" />
                                     <line x1="6" y1="6" x2="18" y2="18" />
                                 </svg>
                             </button>
 
-                            {/* Sidebar nav buttons */}
+                            {/* Sidebar Nav Links */}
                             <nav className="flex flex-col gap-4">
                                 {options.map(({ label, id }) => (
                                     <a
@@ -130,8 +139,9 @@ const Header = () => {
                                             setActive(label);
                                             setSidebarOpen(false);
                                         }}
-                                        className={`text-left text-lg font-semibold uppercase tracking-wide px-3 py-2 rounded-md
-                      ${active === label ? "text-cyan-400" : "text-gray-400 hover:text-cyan-400"}`}
+                                        className={`text-left text-lg font-semibold uppercase tracking-wide px-3 py-2 rounded-md ${
+                                            active === label ? "text-cyan-400" : "text-gray-400 hover:text-cyan-400"
+                                        }`}
                                     >
                                         {label}
                                     </a>

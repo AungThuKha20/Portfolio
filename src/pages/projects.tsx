@@ -44,7 +44,7 @@ const projects: Project[] = [
 
 const Projects = () => {
     return (
-        <section id="projects" className=" lg:py-30 px-4 text-white bg-transparent relative h-full flex flex-col justify-center gap-10 items-center">
+        <section id="projects" className=" min-h-screen lg:py-30 px-4 text-white bg-transparent relative flex flex-col justify-center gap-10 items-center">
             <motion.h1
                 initial={{ opacity: 0, y: -50 }}
                 animate={{ opacity: 1, y: 0 }}
