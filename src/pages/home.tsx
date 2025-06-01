@@ -36,7 +36,7 @@ const Home = () => {
       const timeout = setTimeout(() => {
         setDisplayedText((prev) => prev + typingText[typingIndex]);
         setTypingIndex(typingIndex + 1);
-      }, 0.1);
+      }, 20);
       return () => clearTimeout(timeout);
     }
     if (!showText) {
@@ -84,7 +84,7 @@ const Home = () => {
           disable-zoom
           style={{ width: "100%", height: "100%", zIndex: 100 }}
         ></model-viewer>
-        <div className="absolute top-5 md:left-90 -left-14 w-[400px] z-[101]">
+        <div className="absolute top-5 md:left-90 -left-16 w-[400px] z-[101]">
           <motion.button
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
@@ -102,7 +102,7 @@ const Home = () => {
               initial={{ opacity: 0, y: -10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.01 }}
-              className="mt-4 text-gray-50 whitespace-pre-wrap font-mono text-sm bg-black/50 p-4 rounded-md"
+              className="mt-4 text-gray-50 whitespace-pre-wrap font-mono text-sm bg-black/30 p-4 rounded-md"
             >
               {displayedText}
             </motion.div>
