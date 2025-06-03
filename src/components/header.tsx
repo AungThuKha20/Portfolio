@@ -19,35 +19,46 @@ const Header = () => {
     };
 
     useEffect(() => {
-        const sectionIds = options.map(({ id }) => id);
-        const observers: IntersectionObserver[] = [];
+        const threshold = 0.4; // 40% visibility threshold
 
-        const handleIntersect = (entries: IntersectionObserverEntry[]) => {
-            entries.forEach((entry) => {
-                if (entry.isIntersecting) {
-                    const matched = options.find(opt => opt.id === entry.target.id);
-                    if (matched) setActive(matched.label);
+        const observer = new IntersectionObserver(
+            (entries) => {
+                // Filter visible entries with intersectionRatio > threshold
+                const visibleEntries = entries.filter(entry => entry.isIntersecting && entry.intersectionRatio > threshold);
+
+                if (visibleEntries.length > 0) {
+                    // Pick the most visible section (largest intersectionRatio)
+                    const topVisible = visibleEntries.reduce((a, b) =>
+                        a.intersectionRatio > b.intersectionRatio ? a : b
+                    );
+
+                    const matchedOption = options.find(opt => opt.id === topVisible.target.id);
+                    if (matchedOption && matchedOption.label !== active) {
+                        setActive(matchedOption.label);
+                    }
                 }
-            });
-        };
+                // If no section passes the threshold, do not update active to avoid flicker
+            },
+            {
+                root: null,
+                threshold: Array.from({ length: 101 }, (_, i) => i / 100), // [0, 0.01, ..., 1]
+            }
+        );
 
-        const observerOptions = {
-            root: null,
-            threshold: 0.4,
-            rootMargin: "0px 0px -35% 0px",
-        };
+        const elements: HTMLElement[] = [];
 
-        sectionIds.forEach((id) => {
-            const section = document.getElementById(id);
-            if (section) {
-                const observer = new IntersectionObserver(handleIntersect, observerOptions);
-                observer.observe(section);
-                observers.push(observer);
+        options.forEach(({ id }) => {
+            const el = document.getElementById(id);
+            if (el) {
+                observer.observe(el);
+                elements.push(el);
             }
         });
 
-        return () => observers.forEach(obs => obs.disconnect());
-    }, []);
+        return () => observer.disconnect();
+    }, [active]);
+
+
 
     return (
         <>
@@ -59,9 +70,8 @@ const Header = () => {
                             key={label}
                             href={`#${id}`}
                             onClick={() => setActive(label)}
-                            className={`relative px-5 h-9 text-sm font-semibold flex items-center justify-center uppercase tracking-wider rounded-md overflow-hidden group transition-all duration-300 ${
-                                active === label ? "text-white" : "text-gray-400 hover:text-white"
-                            }`}
+                            className={`relative px-5 h-9 text-sm font-semibold flex items-center justify-center uppercase tracking-wider rounded-md overflow-hidden group transition-all duration-300 ${active === label ? "text-white" : "text-gray-400 hover:text-white"
+                                }`}
                             whileHover={{ scale: 1.03 }}
                             whileTap={{ scale: 0.95 }}
                         >
@@ -69,7 +79,7 @@ const Header = () => {
                                 <>
                                     <motion.div
                                         layoutId="active-pill"
-                                        className="absolute inset-0 bg-gradient-to-r from-cyan-500 to-blue-700 opacity-30 rounded-md"
+                                        className="absolute inset-0 bg-gradient-to-r from-cyan-500 to-blue-700 rounded-md"
                                         transition={{ type: "spring", stiffness: 300, damping: 20 }}
                                     />
                                     <div className="absolute inset-0 border border-cyan-400 rounded-md pointer-events-none" />
@@ -77,6 +87,7 @@ const Header = () => {
                             )}
                             <span className="relative z-10">{label}</span>
                         </motion.a>
+
                     ))}
                 </div>
             </nav>
@@ -100,7 +111,6 @@ const Header = () => {
             <AnimatePresence>
                 {sidebarOpen && (
                     <>
-                        {/* Overlay */}
                         <motion.div
                             className="fixed inset-0 bg-black/50 z-[999]"
                             initial={{ opacity: 0 }}
@@ -109,7 +119,6 @@ const Header = () => {
                             onClick={() => setSidebarOpen(false)}
                         />
 
-                        {/* Sidebar Panel */}
                         <motion.aside
                             className="fixed top-0 left-0 bottom-0 w-64 bg-black/90 backdrop-blur-md p-6 z-[1000] shadow-lg flex flex-col"
                             initial="hidden"
@@ -129,7 +138,6 @@ const Header = () => {
                                 </svg>
                             </button>
 
-                            {/* Sidebar Nav Links */}
                             <nav className="flex flex-col gap-4">
                                 {options.map(({ label, id }) => (
                                     <a
@@ -139,9 +147,8 @@ const Header = () => {
                                             setActive(label);
                                             setSidebarOpen(false);
                                         }}
-                                        className={`text-left text-lg font-semibold uppercase tracking-wide px-3 py-2 rounded-md ${
-                                            active === label ? "text-cyan-400" : "text-gray-400 hover:text-cyan-400"
-                                        }`}
+                                        className={`text-left text-lg font-semibold uppercase tracking-wide px-3 py-2 rounded-md ${active === label ? "text-cyan-400" : "text-gray-400 hover:text-cyan-400"
+                                            }`}
                                     >
                                         {label}
                                     </a>

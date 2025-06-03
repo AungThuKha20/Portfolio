@@ -156,7 +156,7 @@ const Skills = () => {
   const displayedSkills = skills.slice(index, index + 2);
 
   return (
-    <div id="skills" className="flex flex-col items-center justify-center h-full overflow-hidden relative  lg:py-30 p-4">
+    <div id="skills" className="flex flex-col lg:min-h-screenr items-center justify-center h-full overflow-hidden relative  lg:py-30 p-4">
       <motion.h1
         initial={{ opacity: 0, y: -50 }}
         animate={{ opacity: 1, y: 0 }}
