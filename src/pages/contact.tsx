@@ -35,8 +35,8 @@ const Contact = () => {
                 title: "Message Sent!",
                 text: "Thanks for reaching out. I’ll get back to you soon.",
                 icon: "success",
-                confirmButtonColor: "#06b6d4",
-                background: "#1f2937",
+                confirmButtonColor: "#4ade80",
+                background: "rgba(0, 0, 0, 0.8)",
                 color: "#fff",
             });
             setFormData({ name: "", email: "", message: "" });

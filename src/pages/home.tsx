@@ -75,6 +75,7 @@ const Home = () => {
               cameraControls: true,
               interactionPrompt: "auto",
               interactionPolicy: "allow-when-focused",
+
             }
             : {
               cameraControls: false,
@@ -148,7 +149,7 @@ const Home = () => {
           )}
         </div>
       </motion.div>
-    </div>
+    </div >
   );
 };
 

@@ -8,7 +8,6 @@ const TypingHeading = () => {
     const [text1, setText1] = useState("");
     const [text2, setText2] = useState("");
 
-    // Type line 1 safely
     useEffect(() => {
         if (text1.length < fullText1.length) {
             const timeout = setTimeout(() => {
@@ -18,7 +17,6 @@ const TypingHeading = () => {
         }
     }, [text1]);
 
-    // Type line 2 only after line 1 is done
     useEffect(() => {
         if (text1 === fullText1 && text2.length < fullText2.length) {
             const timeout = setTimeout(() => {
